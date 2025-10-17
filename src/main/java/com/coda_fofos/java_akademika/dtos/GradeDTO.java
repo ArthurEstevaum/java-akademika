@@ -1,0 +1,1 @@
+public record GradeDTO(Long id, String assessment, double grade, double weight) {}

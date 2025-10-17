@@ -1,0 +1,1 @@
+public record ExerciseDTO(Long id, String question, List<String> options, String answer) {}

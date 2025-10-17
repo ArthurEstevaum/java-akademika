@@ -1,0 +1,1 @@
+public record SummaryRequestDTO(String content) {}

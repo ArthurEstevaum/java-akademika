@@ -1,0 +1,1 @@
+public record TaskDTO(Long id, String title, String description, LocalDate dueDate, boolean completed) {}
