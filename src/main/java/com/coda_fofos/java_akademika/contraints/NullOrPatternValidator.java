@@ -1,4 +1,4 @@
-package com.coda_fofos.java_akademika.constraints;
+package com.coda_fofos.java_akademika.contraints;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
