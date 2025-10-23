@@ -1,61 +1,62 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.6'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.springframework.boot' version '3.5.6' //
+	id 'io.spring.dependency-management' version '1.1.7' //
 }
 
-group = 'com.coda-fofos'
-version = '0.0.1-SNAPSHOT'
-description = 'Akademika App backend in Java Spring'
+group = 'com.coda-fofos' //
+version = '0.0.1-SNAPSHOT' //
+description = 'Akademika App backend in Java Spring' //
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(21) //
 	}
 }
 
 configurations {
 	compileOnly {
-		extendsFrom annotationProcessor
+		extendsFrom annotationProcessor //
 	}
 }
 
 repositories {
-	mavenCentral()
+	mavenCentral() //
 }
 
 ext {
-	set('springAiVersion', "1.0.3")
+	set('springAiVersion', "1.0.3") //
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.ai:spring-ai-advisors-vector-store'
-	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
-	implementation 'org.springframework.ai:spring-ai-starter-vector-store-milvus'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.postgresql:postgresql'
-	developmentOnly 'org.springframework.ai:spring-ai-spring-boot-docker-compose'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server' //
+	implementation 'org.springframework.boot:spring-boot-starter-security' //
+	implementation 'org.springframework.boot:spring-boot-starter-validation' //
+	implementation 'org.springframework.boot:spring-boot-starter-web' //
+	implementation 'org.springframework.ai:spring-ai-advisors-vector-store' //
+	implementation 'org.springframework.ai:spring-ai-starter-model-openai' //
+	implementation 'org.springframework.ai:spring-ai-starter-vector-store-milvus' //
+	implementation 'com.auth0:java-jwt:4.4.0' // <-- ADICIONADO AQUI
+	compileOnly 'org.projectlombok:lombok' //
+	developmentOnly 'org.springframework.boot:spring-boot-devtools' //
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose' //
+	runtimeOnly 'com.h2database:h2' //
+	runtimeOnly 'org.postgresql:postgresql' //
+	developmentOnly 'org.springframework.ai:spring-ai-spring-boot-docker-compose' //
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor' //
+	annotationProcessor 'org.projectlombok:lombok' //
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' //
+	testImplementation 'org.springframework.security:spring-security-test' //
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher' //
 }
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}" //
 	}
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+	useJUnitPlatform() //
 }

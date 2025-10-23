@@ -1,13 +1,14 @@
-package com.estevaum.akademikaapi.entities;
+package enities;
 
+// Importações JPA e outras necessárias
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+// import jakarta.validation.constraints.Email; // <- REMOVIDO
+// import jakarta.validation.constraints.NotNull; // <- REMOVIDO
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.util.Set;
 
@@ -29,10 +30,11 @@ public class User {
 
     @Setter
     @Column(nullable = false, unique = true)
+    
     private String email;
 
     @OneToMany(mappedBy = "user")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade(CascadeType.ALL)
     private Set<Subject> subjects;
 
     public User(String username, String encodedPassword, String email) {
