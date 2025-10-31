@@ -33,14 +33,23 @@ Este projeto foi construído com as seguintes tecnologias:
 [Documento de Histórias de Usuário - Akademika](https://docs.google.com/document/d/172-K5N2x5RNaVrAmEO5fGfAGwXGvTQFjfv2bO5VAQqk/edit?usp=sharing)
 
 ##  Protótipo Lo-fi
+
  Explore a fundo o design, protótipos e a arquitetura visual completa da aplicação.
  
 [Link Figma](https://www.figma.com/design/9l32q1j7xWh2Wxy2VroqY5/Akademika---POO?node-id=0-1&p=f&t=HQL2p4NMpMUDr9Zs-0)
 
-## Screecast
+## Screecasts
  Veja o projeto em ação e entenda o fluxo de uso em um rápido vídeo.
  
 [Link Youtube](https://youtu.be/UHrsrM4ntNQ?si=DKTYCWHnpcLgOH40)
+
+Veja os testes da nossa aplicação. 
+
+[Link Youtube](https://youtu.be/R00puwuRwaU)
+
+Veja o fucionamento da nossa aplicação.
+
+[Link Youtube](https://youtu.be/oOQ87SC3u8E)
 
 ## 📄 Licença
 
