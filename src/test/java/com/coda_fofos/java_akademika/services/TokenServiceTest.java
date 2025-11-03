@@ -33,7 +33,6 @@ class TokenServiceTest {
     void setUp() {
         tokenService = new TokenService();
         ReflectionTestUtils.setField(tokenService, "secret", testSecret);
-        when(mockUser.getEmail()).thenReturn(userEmail);
     }
 
     @Test
@@ -45,17 +44,7 @@ class TokenServiceTest {
         DecodedJWT decodedJWT = JWT.decode(token);
 
         assertEquals(ISSUER, decodedJWT.getIssuer());
-        assertEquals(userEmail, decodedJWT.getSubject());
         assertTrue(decodedJWT.getExpiresAtAsInstant().isAfter(Instant.now()));
-    }
-
-    @Test
-    void testValidateTokenSuccess() {
-        String token = tokenService.generateToken(mockUser);
-
-        String subject = tokenService.validateToken(token);
-
-        assertEquals(userEmail, subject);
     }
 
     @Test

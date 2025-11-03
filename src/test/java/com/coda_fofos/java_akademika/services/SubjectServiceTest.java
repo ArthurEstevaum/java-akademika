@@ -1,5 +1,3 @@
-Java
-
 package com.coda_fofos.java_akademika.services;
 
 import com.coda_fofos.java_akademika.repositories.SubjectRepository;
@@ -43,7 +41,6 @@ class SubjectServiceTest {
     @BeforeEach
     void setUp() {
         testUser = new User();
-        testUser.setId(userId);
         testUser.setEmail(userEmail);
         testUser.setUsername("testuser");
 
@@ -121,7 +118,6 @@ class SubjectServiceTest {
     @DisplayName("Deve retornar Optional vazio se disciplina não pertencer ao usuário")
     void getSubjectByIdAndUserEmail_OwnershipMismatch() {
         User otherUser = new User();
-        otherUser.setId(99L);
         otherUser.setEmail("other@user.com");
         testSubject.setUser(otherUser); 
 
