@@ -1,9 +1,10 @@
 package com.coda_fofos.java_akademika.configuration;
 
-import com.nimbusds.jose.jwk.JWK;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+// IMPORTES NOVOS
+import javax.crypto.spec.SecretKeySpec;
+import com.nimbusds.jose.jwk.source.ImmutableSecret;
+// FIM IMPORTES NOVOS
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,28 +21,37 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
+// ADICIONE ESTE IMPORTE NOVO
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    @Value("${security.keys.private}")
-    private RSAPrivateKey privateKey;
-    @Value("${security.keys.public}")
-    private RSAPublicKey publicKey;
+
+    @Value("${api.security.token.secret}")
+    private String jwtSecret;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
+
+                // Sua configuração de headers já permite o H2 Console (pois desabilita a proteção de frames)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .authorizeHttpRequests(authorize -> authorize
+
+                        // ADICIONE ESTA LINHA PARA LIBERAR O H2-CONSOLE
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
+
+                        // Suas regras existentes
                         .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                )
                 .build();
     }
 
@@ -50,14 +60,11 @@ public class SecurityConfiguration {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(publicKey).build();
+        byte[] secretKeyBytes = jwtSecret.getBytes();
+        SecretKeySpec secretKey = new SecretKeySpec(secretKeyBytes, 0, secretKeyBytes.length, "HMACSHA256");
+
+        return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
 
-    @Bean
-    public JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
-        var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-
-        return new NimbusJwtEncoder(jwks);
-    }
+    // O resto do seu código (JwtEncoder removido, etc.) está correto.
 }

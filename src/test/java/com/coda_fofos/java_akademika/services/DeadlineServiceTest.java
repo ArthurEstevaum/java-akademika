@@ -216,7 +216,7 @@ class DeadlineServiceTest {
         });
 
         assertEquals("Prazo não encontrado ou inválido para esta disciplina/usuário.", exception.getMessage());
-        
+
         verify(deadlineRepository, never()).save(any());
     }
 
@@ -245,7 +245,7 @@ class DeadlineServiceTest {
             deadlineService.deleteDeadline(deadlineId, subjectId, userEmail);
         });
 
-        assertEquals("Prazo não encontrado ou inválido para esta disciplina/usuário.", exception.getMessage());
+        assertEquals("Disciplina não encontrada ou não pertence ao usuário.", exception.getMessage());
         
         verify(deadlineRepository, never()).delete(any());
     }

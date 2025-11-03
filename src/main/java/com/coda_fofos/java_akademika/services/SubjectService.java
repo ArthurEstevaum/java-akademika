@@ -90,10 +90,8 @@ public class SubjectService {
         Subject existingSubject = getSubjectByIdAndUserEmail(subjectId, userEmail)
                  .orElseThrow(() -> new RuntimeException("Disciplina não encontrada ou não pertence ao usuário."));
 
-        // Atualizar os campos da existingSubject com base no updatedData
-        // Ex: existingSubject.setName(updatedData.getName());
-        //     existingSubject.setStatus(updatedData.getStatus());
-        // ...
+        existingSubject.setName(updatedData.getName());
+        existingSubject.setStatus(updatedData.getStatus());
 
         return subjectRepository.save(existingSubject); // Salva as alterações
     }

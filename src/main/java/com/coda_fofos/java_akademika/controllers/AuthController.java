@@ -6,7 +6,7 @@ import com.coda_fofos.java_akademika.dtos.RegisterUserRequestDTO;
 import com.coda_fofos.java_akademika.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus; 
+import org.springframework.http.HttpStatus; // Importar HttpStatus
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +48,7 @@ public class AuthController {
      * se o AuthService lançar uma exceção (ex: email já existe - idealmente tratada
      * globalmente para retornar 409 Conflict ou 400).
      */
-    @PostMapping("/register") // Mapeia requisições POST para "/auth/register" Ok
+    @PostMapping("/register") // Mapeia requisições POST para "/auth/register"
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterUserRequestDTO registerData) {
         authService.registerNewUser(registerData);
         return ResponseEntity.status(HttpStatus.CREATED).build(); // Retorna 201 Created sem corpo na resposta
