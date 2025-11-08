@@ -10,7 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // Para garantir a atomicidade do registo
+import org.springframework.transaction.annotation.Transactional; 
 
 /**
  * Serviço responsável pela lógica de autenticação e registo de usuários.
@@ -25,15 +25,14 @@ public class AuthService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private TokenService tokenService; // Agora o Java deve encontrar esta classe
+    private TokenService tokenService; 
 
-    // Opcional: Injetar AuthenticationManager se preferir delegar a autenticação
+    
     // @Autowired
     // private AuthenticationManager authenticationManager;
 
     /**
      * Autentica um usuário com base no email e senha.
-     * ... (resto do método como antes)
      */
     public LoginResponseDTO authenticateUser(LoginRequestDTO loginData) {
         User user = userRepository.findByEmail(loginData.email())
@@ -48,14 +47,12 @@ public class AuthService {
         return new LoginResponseDTO(user.getEmail(), token);
     }
 
-    /**
-     * Regista um novo usuário no sistema.
-     * ... (resto do método como antes)
-     */
     @Transactional
     public void registerNewUser(RegisterUserRequestDTO registerData) {
+        // Busca o usuário.
         if (userRepository.findByEmail(registerData.email()).isPresent()) {
-            throw new RuntimeException("Erro: Email já está em uso!");
+            // Lança exceção de domínio, não RuntimeException.
+            throw new UserAlreadyExistsException("Erro: Email já está em uso!");
         }
 
         String encodedPassword = passwordEncoder.encode(registerData.password());
