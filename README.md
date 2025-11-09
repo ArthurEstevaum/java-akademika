@@ -42,6 +42,14 @@ Este projeto foi construído com as seguintes tecnologias:
  
 [Link Youtube](https://youtu.be/UHrsrM4ntNQ?si=DKTYCWHnpcLgOH40)
 
+-Veja nossa aplicação
+
+[Link Youtube](https://youtu.be/oOQ87SC3u8E)
+
+-Veja nossos testes 
+
+[Link Youtube](https://youtu.be/R00puwuRwaU)
+
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
