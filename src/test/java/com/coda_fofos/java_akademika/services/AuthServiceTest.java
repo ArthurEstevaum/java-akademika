@@ -3,6 +3,7 @@ package com.coda_fofos.java_akademika.services;
 import com.coda_fofos.java_akademika.dtos.LoginRequestDTO;
 import com.coda_fofos.java_akademika.dtos.LoginResponseDTO;
 import com.coda_fofos.java_akademika.dtos.RegisterUserRequestDTO;
+import com.coda_fofos.java_akademika.exceptions.UserAlreadyExistsException;
 import com.coda_fofos.java_akademika.repositories.UserRepository;
 import enities.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+
 
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {

@@ -3,6 +3,8 @@ package com.coda_fofos.java_akademika.services;
 import com.coda_fofos.java_akademika.dtos.LoginRequestDTO;
 import com.coda_fofos.java_akademika.dtos.LoginResponseDTO;
 import com.coda_fofos.java_akademika.dtos.RegisterUserRequestDTO;
+// AQUI ESTÁ A CORREÇÃO:
+import com.coda_fofos.java_akademika.exceptions.UserAlreadyExistsException;
 import com.coda_fofos.java_akademika.repositories.UserRepository;
 import enities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; 
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Serviço responsável pela lógica de autenticação e registo de usuários.
@@ -25,9 +27,9 @@ public class AuthService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private TokenService tokenService; 
+    private TokenService tokenService;
 
-    
+
     // @Autowired
     // private AuthenticationManager authenticationManager;
 
@@ -49,7 +51,6 @@ public class AuthService {
 
     @Transactional
     public void registerNewUser(RegisterUserRequestDTO registerData) {
-        // Busca o usuário.
         if (userRepository.findByEmail(registerData.email()).isPresent()) {
             // Lança exceção de domínio, não RuntimeException.
             throw new UserAlreadyExistsException("Erro: Email já está em uso!");
