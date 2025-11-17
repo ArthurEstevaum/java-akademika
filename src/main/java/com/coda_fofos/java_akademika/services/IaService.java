@@ -1,8 +1,10 @@
 package com.coda_fofos.java_akademika.services;
 
-import com.coda_fofos.java_akademika.dtos.PromptRequestDTO;
+import com.coda_fofos.java_akademika.enums.Difficulty;
+import com.coda_fofos.java_akademika.outputs.PromptResponse;
+import com.coda_fofos.java_akademika.outputs.Summary.Summary;
+import com.coda_fofos.java_akademika.outputs.quiz.Quiz;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,58 +12,47 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class IaService {
-
     private final ChatClient chatClient;
 
-    /**
-     * Injeta e constrói o ChatClient para interagir com o modelo de IA.
-     */
-    @Autowired
     public IaService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder.build();
     }
 
-    /**
-     * Gera conteúdo de estudo (resumos, exercícios, flashcards) baseado no prompt.
-     * @param request DTO com a requisição do usuário.
-     * @return O texto de resposta gerado pela IA.
-     */
-    public String generateStudyContent(PromptRequestDTO request) {
-        // Define o papel da IA para garantir respostas focadas em estudo.
-        String systemMessage = "Você é o assistente de estudo inteligente 'Akademika', um **Mentor Nordestino, Poeta e Estruturador**. Sua missão é **superar barreiras de aprendizado** entregando o conteúdo mais **conciso, direto e limpo** possível, sempre em **Português (pt-br)**.\n" +
-                "\n" +
-                "**1. A Identidade & Diretrizes de Acessibilidade:**\n" +
-                "* **Foco na Dislexia:** Sua estrutura deve ser **ultra-limpa, previsível e minimalista**. Use listas, títulos em negrito e frases curtas. **Proibido blocos de texto grandes**.\n" +
-                "* **Personalidade:** Direto e incentivador, mas com espaço para a sua veia poética. Use **analogias** e **metáforas poéticas** ligadas ao mundo da **Eletrônica**, **Programação** ou **Jogos** para facilitar a memorização.\n" +
-                "* **Restrição de Linguagem:** O output deve ser **ESTRITAMENTE** em Português (pt-br).\n" +
-                "\n" +
-                "**2. O Protocolo de Saída (A Estrutura de Três Atos):**\n" +
-                "Você deve responder **SEMPRE** seguindo exatamente esta estrutura e ordem.\n" +
-                "\n" +
-                "#### Ato I: O Verso Rápido (Resumo e Piada)\n" +
-                "* **Formato:** O resumo deve ter **no máximo 3 linhas**.\n" +
-                "* **Conteúdo:** Apresente a essência do tópico com um **Aforismo ou Metáfora poética** que ajude na fixação.\n" +
-                "* **Piada:** **OBRIGATORIAMENTE**, inclua uma piada curta e relevante (ou um fato divertido) em uma linha separada para quebrar o gelo.\n" +
-                "\n" +
-                "#### Ato II: O Baralho de Combate (Flashcards)\n" +
-                "* **Formato:** Gere **EXATAMENTE 5 Flashcards**.\n" +
-                "* **Estrutura:** Use o formato **[PERGUNTA CRÍTICA/CONCEITO] | [RESPOSTA MÍNIMA E EXATA]**.\n" +
-                "\n" +
-                "#### Ato III: O Desafio do Nordeste (Exercício Prático)\n" +
-                "* **Conteúdo:** Uma única **Questão de Múltipla Escolha** (4 alternativas) com foco em **aplicação prática**.\n" +
-                "* **Temática:** Priorize cenários ligados a **ESP32/Arduino, Machine Learning, ou Análise de Sistemas**.\n" +
-                "* **Estrutura:** Apresente a Questão, as 4 alternativas (A, B, C, D) e, **imediatamente abaixo**, a linha de **Gabarito**.\n" +
-                "* **Regra de Código:** Se o exercício exigir um exemplo de código, utilize a **Linguagem C**. Inclua **zero comentários além da assinatura da função principal** (`int main()`) para máxima concisão.\n" +
-                "\n" +
-                "**3. Restrições Finais de Output:**\n" +
-                "* **PROIBIDO** qualquer tipo de introdução, encerramento, agradecimento ou frase de transição.\n" +
-                "* O output deve começar e terminar com os títulos e conteúdo dos Atos.";
+    public Quiz generateQuiz(String topic, Difficulty difficulty) {
+        String prompt = "Gere exercícios de dificuldade {difficulty} sobre o " +
+                "tópico {topic}, a resposta deve estar estruturada com as respostas, as questões, e a explicação de " +
+                "cada alternativa" +
+                "(da alternativa estar correta ou incorreta) para cada questão" + "use caracteres que possam ser parseados na resposta json usando spring AI";
 
-        // Envia a requisição de chat para o modelo de LLM.
-        return chatClient.prompt()
-                .system(systemMessage)
-                .user(request.prompt())
+        return this.chatClient.prompt()
+                .user(u -> u.text(prompt).param("topic", topic).param("difficulty", difficulty)).call().entity(Quiz.class);
+    }
+
+    public Summary generateSummary(String topic, String size) {
+        String prompt = """
+                Você é um especialista em criar resumos detalhados e úteis para estudantes. Seu objetivo é condensar informações cruciais sobre um tópico, tornando-o fácil de entender e usar como guia de estudo.
+                Por favor, gere um resumo detalhado sobre o tópico: derivadas.
+                O resumo deve incluir os seguintes elementos, quando aplicável ao tópico:
+                1.  Conceito Fundamental: Uma explicação clara e concisa do que é o tópico.
+                2.  Aplicações e Importância: Onde esse conceito é aplicado e por que é importante estudá-lo. Forneça exemplos práticos, se possível.
+                3.  Principais Fórmulas e Regras: Liste e explique as fórmulas, teoremas e regras essenciais relacionadas ao tópico. Use notação matemática quando apropriado e explique o significado de cada componente da fórmula.
+                4.  Conceitos Relacionados: Mencione brevemente outros conceitos que são importantes para entender completamente este tópico e como eles se conectam.
+                5.  Passos Chave para a Solução de Problemas: Se aplicável, forneça um guia passo a passo sobre como abordar problemas relacionados a este tópico.
+                6.  Exemplos Práticos: Inclua um ou dois exemplos simples que ilustrem a aplicação dos conceitos e fórmulas.
+                7.  Pontos Essenciais para Memorizar: Destaque os pontos mais importantes que um estudante deve memorizar para uma prova ou para ter um entendimento sólido do assunto.
+                Certifique-se de que a linguagem seja clara, acessível e focada em ajudar um estudante a aprender e revisar o material de forma eficaz.
+                O assunto a ser resumido é: {topic}.
+                Caso seja possível/conveniente, sintetize esse guia para o tamanho: {size}
+                use caracteres que possam ser parseados na resposta json usando spring AI
+                """;
+
+        return this.chatClient.prompt()
+                .user(u -> u.text(prompt).param("size", size).param("topic", topic))
                 .call()
-                .content();
+                .entity(Summary.class);
+    }
+
+    public PromptResponse getPromptResponse(String prompt) {
+        return this.chatClient.prompt().user(u -> u.text(prompt)).call().entity(PromptResponse.class);
     }
 }

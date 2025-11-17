@@ -1,15 +1,12 @@
 services:
-  # O teu serviço Postgres (mantido)
   postgres:
     image: 'postgres:latest'
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      - 'POSTGRES_DB=akademika-db'
+      - 'POSTGRES_PASSWORD=akademika-secret'
+      - 'POSTGRES_USER=akademika-user'
     ports:
       - "5432:5432"
-
-  # --- Serviços Milvus ---
 
   etcd:
     image: quay.io/coreos/etcd:v3.5.14
@@ -18,7 +15,6 @@ services:
       - "2379:2379"
 
   minio:
-    # AQUI ESTÁ A CORREÇÃO:
     image: minio/minio:latest
     command: minio server /minio_data --console-address ":9001"
     environment:

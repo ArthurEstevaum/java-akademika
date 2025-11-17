@@ -1,7 +1,7 @@
 package com.coda_fofos.java_akademika.dtos.subject;
 
-import com.estevaum.akademikaapi.enums.Days;
-import com.estevaum.akademikaapi.enums.Status;
+import com.coda_fofos.java_akademika.enums.Days;
+import com.coda_fofos.java_akademika.enums.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
