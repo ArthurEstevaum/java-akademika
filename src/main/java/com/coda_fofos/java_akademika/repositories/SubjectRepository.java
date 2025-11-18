@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface Repository para a entidade Subject.
@@ -21,6 +22,12 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> { // <Su
      * @return Uma lista de Subjects pertencentes ao usuário fornecido.
      */
     List<Subject> findByUser(User user);
+
+    List<Subject> findAllByUserEmail(String userEmail);
+
+    List<Subject> findByIdAndUserEmail(Long id, String userEmail);
+
+    Optional<Subject> getByIdAndUserEmail(Long id, String userEmail);
 
     // Exemplo: Buscar disciplinas de um usuário por ID do usuário
     // List<Subject> findByUserId(Long userId);
